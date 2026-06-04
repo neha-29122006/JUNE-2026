@@ -1,0 +1,42 @@
+class Solution:
+    def circularArrayLoop(self, nums: List[int]) -> bool:
+        n = len(nums)
+
+        def move(i):
+            return (i + nums[i]) % n
+
+        for i in range(n):
+            if nums[i] == 0:
+                continue
+
+            sign = nums[i] > 0
+            slow = fast = i
+
+            while True:
+                ns = move(slow)
+
+                nf = move(fast)
+                nnf = move(nf)
+
+                if (
+                    (nums[slow] > 0) != sign or
+                    (nums[fast] > 0) != sign or
+                    (nums[nf] > 0) != sign
+                ):
+                    break
+
+                slow = ns
+                fast = nnf
+
+                if slow == fast:
+                    if slow == move(slow):
+                        break
+                    return True
+
+            cur = i
+            while nums[cur] and (nums[cur] > 0) == sign:
+                nxt = move(cur)
+                nums[cur] = 0
+                cur = nxt
+
+        return False
