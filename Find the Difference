@@ -1,0 +1,11 @@
+class Solution:
+    def findTheDifference(self, s: str, t: str) -> str:
+        random = 0
+
+        for ch in s:
+            random ^= ord(ch)
+
+        for ch in t:
+            random ^= ord(ch)
+
+        return chr(random)
